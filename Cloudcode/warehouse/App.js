@@ -12,6 +12,7 @@ import type { Node } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import HomeScreen from './screens/Home'
 import ScannerScreen from './screens/Scanner'
@@ -26,11 +27,12 @@ const App: () => Node = () => {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home" screenOptions={{
           headerStyle: {
-            backgroundColor: '#2099e7',
+            backgroundColor: '#2099e7'
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
             fontWeight: 'bold',
+            fontSize: hp('1.5%'),
           },
         }} /* headerMode="none" */>
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
