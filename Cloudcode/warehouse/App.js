@@ -24,11 +24,19 @@ const App: () => Node = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home" headerMode="none">
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Scanner" component={ScannerScreen} />
-          <Stack.Screen name="AddProduct" component={AddProductScreen} />
-          <Stack.Screen name="ProductList" component={ProductListScreen} />
+        <Stack.Navigator initialRouteName="Home" screenOptions={{
+          headerStyle: {
+            backgroundColor: '#2099e7',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }} /* headerMode="none" */>
+          <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Scanner" component={ScannerScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="AddProduct" component={AddProductScreen} options={{ title: 'Shipping Inventory' }} />
+          <Stack.Screen name="ProductList" component={ProductListScreen} options={{ title: 'Shipping Inventory' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
