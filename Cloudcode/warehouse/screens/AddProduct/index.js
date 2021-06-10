@@ -8,15 +8,15 @@ import Header from "../../components/header"
 import Button from "../../components/button"
 
 export default function AddProductScreen({ navigation }) {
-  const [typeOpen, setTypeOpen] = useState(false);
-  const [types, setTypes] = useState([
+  const [productTypeOpen, setProductTypeOpen] = useState(false);
+  const [productType, setProductType] = useState([
     { label: 'Apple', value: 'apple' },
     { label: 'Samsung', value: 'samsung' }
   ]);
-  const [typeValue, setTypeValue] = useState(null);
+  const [productTypeValue, setProductTypeValue] = useState(null);
 
-  const [itemOpen, setItemOpen] = useState(false);
-  const [items, setItems] = useState([
+  const [pickListOpen, setPickListOpen] = useState(false);
+  const [pickList, setPickList] = useState([
     { label: 'iPhone 5', value: 'i5' },
     { label: 'iPhone 5s', value: 'i5s' },
     { label: 'iPhone 6', value: 'i6' },
@@ -25,9 +25,9 @@ export default function AddProductScreen({ navigation }) {
     { label: 'iPhone 8', value: 'i8' },
     { label: 'iPhone x', value: 'x' },
   ]);
-  const [itemValue, setItemValue] = useState(null);
+  const [pickListValue, setPickListValue] = useState(null);
 
-  const [inputList, setInputList] = useState([{ id: 'item-0', type: "", item: "", quantity: 0 }]);
+  const [inputList, setInputList] = useState([{ id: 'item-0', productType: "", item: "", quantity: 0 }]);
   const Item = ({ id }) => (
     <View style={styles.item}>
       {/* <Text style={styles.title}>{id}</Text> */}
@@ -35,12 +35,15 @@ export default function AddProductScreen({ navigation }) {
         <DropDownPicker
           zIndex={2000}
           zIndexInverse={2000}
-          open={typeOpen}
-          value={typeValue}
-          items={types}
-          setItems={setTypes}
-          setOpen={setTypeOpen}
-          setValue={setTypeValue}
+          open={productTypeOpen}
+          value={productTypeValue}
+          items={productType}
+          setItems={setProductType}
+          setOpen={setProductTypeOpen}
+          setValue={setProductTypeValue}
+          onChangeValue={(value) => {
+            console.log(value);
+          }}
           style={{
             width: '60%',
             borderWidth: 0,
@@ -59,12 +62,12 @@ export default function AddProductScreen({ navigation }) {
         <DropDownPicker
           zIndex={3000}
           zIndexInverse={1000}
-          open={itemOpen}
-          value={itemValue}
-          items={items}
-          setItems={setItems}
-          setOpen={setItemOpen}
-          setValue={setItemValue}
+          open={pickListOpen}
+          value={pickListValue}
+          items={pickList}
+          setItems={setPickList}
+          setOpen={setPickListOpen}
+          setValue={setPickListValue}
           style={{
             marginLeft: -140,
             width: '60%',
@@ -117,7 +120,7 @@ export default function AddProductScreen({ navigation }) {
         })}*/}
       </View>
       <View style={styles.bottomBtnContainer}>
-        <Button onPress={() => navigation.goBack()} title="CANCEL" width={"48%"} type="light" />
+        <Button onPress={() => navigation.goBack()} title="CANCEL" width={"48%"} productType="light" />
         <Button onPress={() => navigation.navigate('ProductList')} title="SAVE" width={"48%"}/>
       </View>
     </SafeAreaView>
