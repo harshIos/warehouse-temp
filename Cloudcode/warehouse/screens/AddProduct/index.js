@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { useState } from 'react'
+import { useState, useRef, createRef } from 'react'
 import { View, Text, SafeAreaView, StatusBar, StyleSheet, FlatList, TextInput, Pressable, } from 'react-native';;
-import DropDownPicker from 'react-native-dropdown-picker';
+import ModalDropdown from 'react-native-modal-dropdown';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import Header from "../../components/header"
 import Button from "../../components/button"
 
 export default function AddProductScreen({ navigation }) {
+  const dropdown = useRef(null);
   const [productTypeOpen, setProductTypeOpen] = useState(false);
   const [productType, setProductType] = useState([
     { label: 'Apple', value: 'apple' },
@@ -28,58 +29,48 @@ export default function AddProductScreen({ navigation }) {
   const [pickListValue, setPickListValue] = useState(null);
 
   const [inputList, setInputList] = useState([{ id: 'item-0', productType: "", item: "", quantity: 0 }]);
+
   const Item = ({ id }) => (
     <View style={styles.item}>
       {/* <Text style={styles.title}>{id}</Text> */}
       <View style={styles.dropdownContainer}>
-        <DropDownPicker
-          zIndex={2000}
-          zIndexInverse={2000}
-          open={productTypeOpen}
-          value={productTypeValue}
-          items={productType}
-          setItems={setProductType}
-          setOpen={setProductTypeOpen}
-          setValue={setProductTypeValue}
-          onChangeValue={(value) => {
-            console.log(value);
+        <ModalDropdown
+          ref={dropdown}
+          options={productType}
+          renderButtonText={(rowData) => `${rowData.label}`}
+          renderRow={(rowData, rowID, highlighted) => {
+            return (<Pressable
+              style={{ padding: 10 }}
+              onPress={() => {
+                dropdown.current.select(rowID)
+                dropdown.current.hide();
+              }}
+            >
+              <Text style={styles.dropdownItem}>
+                {rowData.label}
+              </Text>
+            </Pressable>)
+          }}
+          textStyle={{
+            fontSize: hp('2%'),
+            padding: 10
+          }}
+          dropdownStyle={{
+            width: '25%',
+            borderColor: '#aaaaaa',
+            borderWidth: 1,
+            borderRadius: 5,
+          }}
+          dropdownTextStyle={{
+            fontSize: hp('2%'),
+            width: '100%',
+            borderWidth: 0,
+            borderBottomWidth: 1,
           }}
           style={{
             width: '60%',
             borderWidth: 0,
             borderBottomWidth: 1
-          }}
-          dropDownContainerStyle={{
-            width: '60%',
-          }}
-          textStyle={{
-            fontSize: hp('2%')
-          }}
-          containerStyle={{
-            width: '100%'
-          }}
-        />
-        <DropDownPicker
-          zIndex={3000}
-          zIndexInverse={1000}
-          open={pickListOpen}
-          value={pickListValue}
-          items={pickList}
-          setItems={setPickList}
-          setOpen={setPickListOpen}
-          setValue={setPickListValue}
-          style={{
-            marginLeft: -140,
-            width: '60%',
-            borderWidth: 0,
-            borderBottomWidth: 1
-          }}
-          dropDownContainerStyle={{
-            width: '60%',
-            marginLeft: -140,
-          }}
-          textStyle={{
-            fontSize: hp('2%')
           }}
         />
       </View>
@@ -121,7 +112,7 @@ export default function AddProductScreen({ navigation }) {
       </View>
       <View style={styles.bottomBtnContainer}>
         <Button onPress={() => navigation.goBack()} title="CANCEL" width={"48%"} productType="light" />
-        <Button onPress={() => navigation.navigate('ProductList')} title="SAVE" width={"48%"}/>
+        <Button onPress={() => navigation.navigate('ProductList')} title="SAVE" width={"48%"} />
       </View>
     </SafeAreaView>
   );
@@ -189,4 +180,8 @@ const styles = StyleSheet.create({
   headerTextWidth: {
     marginLeft: '-20%'
   },
+  dropdownItem: {
+    padding: 2,
+    fontSize: hp('2%'),
+  }
 })
