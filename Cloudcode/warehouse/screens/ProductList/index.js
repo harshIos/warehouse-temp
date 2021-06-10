@@ -5,12 +5,20 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 import Header from "../../components/header"
 import Button from "../../components/button"
+import data from "../../data.json"
 
 export default function ProductListScreen({ navigation }) {
-  const [inputList, setInputList] = useState([{ id: 'item-0', type: "", item: "", quantity: 0 }]);
-  const Item = ({ id }) => (
+  const Item = ({ type, item, quantity }) => (
     <View style={styles.item}>
-      <Text style={styles.title}>{id}</Text> 
+      <View style={styles.itemWrapper}>
+        <Text style={styles.title}>{type}</Text>
+      </View>
+      <View style={styles.itemWrapper}>
+        <Text style={styles.title}>{item}</Text>
+      </View>
+      <View style={styles.itemWrapper}>
+        <Text style={styles.title}>{quantity}</Text>
+      </View>
     </View>
   );
 
@@ -19,8 +27,10 @@ export default function ProductListScreen({ navigation }) {
       <StatusBar barStyle="light-content" backgroundColor="#2099e7" />
       <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start', padding: 20, width: '100%' }}>
         <FlatList
-          data={inputList}
-          renderItem={({ item }) => <Item id={item.id} />}
+          data={data}
+          ItemSeparatorComponent={() => <View style={styles.listItemSeparator}/>}
+          ListFooterComponent={() => <View style={styles.listItemSeparator}/>}
+          renderItem={({ item }) => <Item {...item} />}
           keyExtractor={item => item.id}
           ListHeaderComponent={<Header title1="Product Type" title2="PickList" title3="Quantity" />}
         />
@@ -40,17 +50,29 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   item: {
+    marginTop: '1%',
     padding: 20,
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    width: '100%'
+    alignItems: 'center',
   },
   title: {
     fontSize: hp('2%'),
+    marginLeft: '1%',
+    marginRight: '20%',
+    color: '#aaaaaa',
+    textTransform: 'capitalize'
   },
-  btnContainer : {
+  btnContainer: {
     width: '100%',
     padding: '2%',
+  },
+  itemWrapper: {
+    width: '36%'
+  },
+  listItemSeparator: {
+    height: 1,
+    width: "100%",
+    backgroundColor: "#aaaaaa",
   }
 })

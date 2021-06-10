@@ -2,12 +2,18 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-const Header = ({ title1, title2, title3 }) => {
+const Header = ({ title1, title2, title3, addedClasses }) => {
     return (
         <View style={styles.itemHeader}>
-            <Text style={styles.headerText}>{title1}</Text>
-            <Text style={styles.headerText}>{title2}</Text>
-            <Text style={[styles.headerText, styles.headerTextWidth]}>{title3}</Text>
+            <View style={styles.itemWrapper}>
+                <Text style={styles.headerText}>{title1}</Text>
+            </View>
+            <View style={styles.itemWrapper}>
+                <Text style={[styles.headerText, addedClasses]}>{title2}</Text>
+            </View>
+            <View style={styles.itemWrapper}>
+                <Text style={[styles.headerText, addedClasses]}>{title3}</Text>
+            </View>
         </View>
     )
 }
@@ -27,11 +33,9 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: hp('2%'),
         fontWeight: 'bold',
-        marginLeft: '1%',
-        marginRight: '10%'
     },
-    headerTextWidth: {
-        marginLeft: '8%'
+    itemWrapper: {
+        width: '37%'
     }
 });
 

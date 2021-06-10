@@ -108,7 +108,7 @@ export default function AddProductScreen({ navigation }) {
           data={inputList}
           renderItem={({ item }) => <Item id={item.id} />}
           keyExtractor={item => item.id}
-          ListHeaderComponent={<Header title1="Product Type" title2="PickList" title3="Quantity" />}
+          ListHeaderComponent={<Header title1="Product Type" title2="PickList" title3="Quantity" addedClasses={styles.headerTextWidth} />}
         />
         {/* {inputList.map(item => {
           return <Item id={item.id} key={item.id} />
@@ -180,5 +180,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     margin: '2%'
+  },
+  headerTextWidth: {
+    marginLeft: '-20%'
   },
 })
