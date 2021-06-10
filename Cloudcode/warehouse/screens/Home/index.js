@@ -161,20 +161,7 @@ const styles = StyleSheet.create({
     },
     addressInfoContainer: {
         height: '24%',
-    },
-    btn: {
-        backgroundColor: '#2099e7',
-        padding: 20,
-        borderRadius: 20,
-        width: '100%',
-        marginTop: '10%'
-    },
-    text: {
-        color: '#fff',
-        textAlign: 'center',
-        fontSize: hp('2%')
     }
-
 });
 
 export default Home;

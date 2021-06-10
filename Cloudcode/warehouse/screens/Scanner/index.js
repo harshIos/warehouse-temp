@@ -12,7 +12,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import Button from '../../components/button'
 
@@ -41,15 +40,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center'
   },
-  btn : {
-    backgroundColor: '#2099e7',
-    padding: 10,
-  },
-  text :{ 
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: hp('2%')
-  }
 });
 
 export default Scanner;
