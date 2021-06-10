@@ -9,11 +9,12 @@ import Button from "../../components/button"
 
 export default function AddProductScreen({ navigation }) {
   const [typeOpen, setTypeOpen] = useState(false);
-  const [value, setValue] = useState(null);
   const [types, setTypes] = useState([
     { label: 'Apple', value: 'apple' },
     { label: 'Samsung', value: 'samsung' }
   ]);
+  const [typeValue, setTypeValue] = useState(null);
+
   const [itemOpen, setItemOpen] = useState(false);
   const [items, setItems] = useState([
     { label: 'iPhone 5', value: 'i5' },
@@ -24,6 +25,7 @@ export default function AddProductScreen({ navigation }) {
     { label: 'iPhone 8', value: 'i8' },
     { label: 'iPhone x', value: 'x' },
   ]);
+  const [itemValue, setItemValue] = useState(null);
 
   const [inputList, setInputList] = useState([{ id: 'item-0', type: "", item: "", quantity: 0 }]);
   const Item = ({ id }) => (
@@ -31,14 +33,14 @@ export default function AddProductScreen({ navigation }) {
       {/* <Text style={styles.title}>{id}</Text> */}
       <View style={styles.dropdownContainer}>
         <DropDownPicker
-          zIndex={3000}
-          zIndexInverse={1000}
+          zIndex={2000}
+          zIndexInverse={2000}
           open={typeOpen}
-          value={value}
+          value={typeValue}
           items={types}
           setItems={setTypes}
           setOpen={setTypeOpen}
-          setValue={setValue}
+          setValue={setTypeValue}
           style={{
             width: '60%',
             borderWidth: 0,
@@ -55,14 +57,14 @@ export default function AddProductScreen({ navigation }) {
           }}
         />
         <DropDownPicker
-          zIndex={2000}
-          zIndexInverse={2000}
+          zIndex={3000}
+          zIndexInverse={1000}
           open={itemOpen}
-          value={value}
+          value={itemValue}
           items={items}
           setItems={setItems}
           setOpen={setItemOpen}
-          setValue={setValue}
+          setValue={setItemValue}
           style={{
             marginLeft: -140,
             width: '60%',
