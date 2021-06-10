@@ -10,6 +10,8 @@ import { SafeAreaView, View, Image, StatusBar, Text, StyleSheet, TextInput, Touc
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import Button from '../../components/button'
+import Card from "../../components/card"
+import DarkCard from "../../components/dark-card"
 
 const Home = ({ navigation }) => {
     return (
@@ -20,57 +22,15 @@ const Home = ({ navigation }) => {
                     <Image source={require('../../assets/qrscanner.png')} style={styles.scannerImage} />
                 </TouchableOpacity>
                 <View style={styles.textContainer} >
-                    <View style={styles.textView} >
-                        <Text style={styles.baseText}>Tracking Number</Text>
-                        <TextInput
-                            editable
-                            maxLength={40}
-                            value={'1234567890'}
-                            keyboardType="numeric"
-                            style={styles.input}
-                        />
-                    </View>
-                    <View style={styles.textView} >
-                        <Text style={styles.baseText}>Reference Number</Text>
-                        <TextInput
-                            editable
-                            maxLength={40}
-                            value={'1234567890'}
-                            keyboardType="numeric"
-                            style={styles.input}
-                        />
-                    </View>
+                    <DarkCard title="Tracking Number" value="1234567890" />
+                    <DarkCard title="Reference Number" value="1234567890" />
                 </View>
             </View>
             <View style={styles.info}>
-                <View style={styles.infoContainer} >
-                    <Text style={styles.label}>
-                        <Text style={styles.label}>Customer Information</Text>
-                        <Text style={styles.labelStart}>*</Text>
-                    </Text>
-                    <Text style={styles.value}>Reference Number</Text>
-                </View>
-                <View style={styles.infoContainer} >
-                    <Text style={styles.label}>
-                        <Text style={styles.label}>Contact Information</Text>
-                        <Text style={styles.labelStart}>*</Text>
-                    </Text>
-                    <Text style={styles.value}>Reference Number</Text>
-                </View>
-                <View style={styles.infoContainer} >
-                    <Text style={styles.label}>
-                        <Text style={styles.label}>Account Name</Text>
-                        <Text style={styles.labelStart}>*</Text>
-                    </Text>
-                    <Text style={styles.value}>Reference Number</Text>
-                </View>
-                <View style={[styles.infoContainer, styles.addressInfoContainer]} >
-                    <Text style={styles.label}>
-                        <Text style={styles.label}>Address</Text>
-                        <Text style={styles.labelStart}>*</Text>
-                    </Text>
-                    <Text style={styles.value}>Reference Number</Text>
-                </View>
+                <Card title="Customer Information" value="Reference Number" />
+                <Card title="Contact Information" value="Reference Number" />
+                <Card title="Account Name" value="Reference Number" />
+                <Card title="Address" value="Reference Number" addedClasses={styles.addressInfoContainer}/>
                 <Button onPress={() => navigation.navigate('AddProduct')} title="NEXT"/>
             </View>
         </SafeAreaView>
@@ -110,54 +70,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         marginTop: '6%'
-    },
-    textView: {
-        backgroundColor: '#2099e7',
-        borderWidth: 1,
-        padding: 20,
-        borderRadius: 20,
-        borderColor: '#fff',
-        width: '45%',
-        margin: 6
-    },
-    baseText: {
-        color: '#fff',
-        fontSize: hp('2%'),
-        marginBottom: '1%'
-    },
-    input: {
-        marginTop: 6,
-        color: '#fff',
-        fontSize: hp('2%'),
-        borderBottomWidth: 1,
-        borderBottomColor: '#fff',
-        width: '50%',
-        fontWeight: 'bold'
-    },
-    infoContainer: {
-        borderWidth: 1,
-        borderColor: '#ededed',
-        borderRadius: 50,
-        width: '100%',
-        height: '16%',
-        backgroundColor: '#fff',
-        marginTop: '2%'
-    },
-    label: {
-        color: '#797d82',
-        paddingHorizontal: '4%',
-        paddingTop: '3%',
-        fontSize: hp('1.8%')
-    },
-    value: {
-        color: '#51575c',
-        paddingHorizontal: '4%',
-        fontSize: hp('2%'),
-        paddingTop: '2%',
-        fontWeight: 'bold'
-    },
-    labelStart: {
-        color: '#ff0000',
     },
     addressInfoContainer: {
         height: '24%',
