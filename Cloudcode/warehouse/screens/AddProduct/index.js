@@ -4,6 +4,9 @@ import { View, Text, SafeAreaView, StatusBar, StyleSheet, FlatList, TextInput, P
 import DropDownPicker from 'react-native-dropdown-picker';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
+import Header from "../../components/header"
+import Button from "../../components/button"
+
 export default function AddProductScreen({ navigation }) {
   const [typeOpen, setTypeOpen] = useState(false);
   const [value, setValue] = useState(null);
@@ -97,13 +100,6 @@ export default function AddProductScreen({ navigation }) {
     </View>
   );
 
-  const header = () => {
-    return (<View style={styles.itemHeader}>
-      <Text style={styles.headerText}>Product Type</Text>
-      <Text style={styles.headerText}>PickList</Text>
-      <Text style={[styles.headerText, styles.headerTextWidth]}>Quantity</Text>
-    </View>)
-  }
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#2099e7" />
@@ -112,11 +108,15 @@ export default function AddProductScreen({ navigation }) {
           data={inputList}
           renderItem={({ item }) => <Item id={item.id} />}
           keyExtractor={item => item.id}
-          ListHeaderComponent={header}
+          ListHeaderComponent={<Header title1="Product Type" title2="PickList" title3="Quantity" />}
         />
         {/* {inputList.map(item => {
           return <Item id={item.id} key={item.id} />
         })}*/}
+      </View>
+      <View style={styles.bottomBtnContainer}>
+        <Button onPress={() => navigation.goBack()} title="CANCEL" width={"48%"} type="light" />
+        <Button onPress={() => navigation.navigate('ProductList')} title="SAVE" width={"48%"}/>
       </View>
     </SafeAreaView>
   );
@@ -127,7 +127,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#fff',
-
   },
   item: {
     padding: 20,
@@ -175,24 +174,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: '4%'
   },
-  itemHeader :{
+  bottomBtnContainer: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#e8effa',
-    /* borderRadius: 10, */
-    padding: 20,
-    backgroundColor: '#e8effa',
-    width: wp('100%')
+    justifyContent: 'space-between',
+    margin: '2%'
   },
-  headerText: {
-    fontSize: hp('2%'),
-    fontWeight: 'bold',
-    marginLeft: '1%',
-    marginRight: '10%'
-  },
-  headerTextWidth: {
-    marginLeft: '8%'
-  }
 })

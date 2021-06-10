@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 import React from 'react';
-import { SafeAreaView, View, Image, StatusBar, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, Image, StatusBar, StyleSheet, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import Button from '../../components/button'
