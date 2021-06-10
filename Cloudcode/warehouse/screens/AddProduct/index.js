@@ -9,14 +9,11 @@ import Button from "../../components/button"
 
 export default function AddProductScreen({ navigation }) {
   const dropdown = useRef(null);
-  const [productTypeOpen, setProductTypeOpen] = useState(false);
   const [productType, setProductType] = useState([
     { label: 'Apple', value: 'apple' },
     { label: 'Samsung', value: 'samsung' }
   ]);
-  const [productTypeValue, setProductTypeValue] = useState(null);
 
-  const [pickListOpen, setPickListOpen] = useState(false);
   const [pickList, setPickList] = useState([
     { label: 'iPhone 5', value: 'i5' },
     { label: 'iPhone 5s', value: 'i5s' },
@@ -26,13 +23,30 @@ export default function AddProductScreen({ navigation }) {
     { label: 'iPhone 8', value: 'i8' },
     { label: 'iPhone x', value: 'x' },
   ]);
-  const [pickListValue, setPickListValue] = useState(null);
+  const field = {productType: "", pickList: "", quantity: 0}
+  const [inputList, setInputList] = useState([{ id: 'item-1', ...field }]);
 
-  const [inputList, setInputList] = useState([{ id: 'item-0', productType: "", item: "", quantity: 0 }]);
+  const addItem = () => {
+    setInputList(existingItems => [...existingItems, { id: `item-${existingItems.length+1}`, ...field}])
+  }
 
+  const deleteItem = (idToRemove) => {
+    const data = inputList.filter((item) => item.id !== idToRemove)
+    setInputList(data)
+  }
+
+  const updateItem = (idToUpdate, key, value) => {
+    const data = inputList.map(rowItem => ((rowItem.id === idToUpdate) ? {...rowItem, [key]: value} : rowItem))
+    console.log( idToUpdate, key, value)
+    setInputList(data)
+  }
+
+  const getItem = (id) => {
+    return inputList.find(item => item.id === id)
+  }
   const Item = ({ id }) => (
     <View style={styles.item}>
-      {/* <Text style={styles.title}>{id}</Text> */}
+       {/* <Text style={styles.title}>{id}</Text> */} 
       <View style={styles.dropdownContainer}>
         <ModalDropdown
           ref={dropdown}
@@ -42,8 +56,9 @@ export default function AddProductScreen({ navigation }) {
             return (<Pressable
               style={{ padding: 10 }}
               onPress={() => {
+                updateItem(id, "productType", rowData.label)
                 dropdown.current.select(rowID)
-                dropdown.current.hide();
+                dropdown.current.hide(); 
               }}
             >
               <Text style={styles.dropdownItem}>
@@ -75,20 +90,21 @@ export default function AddProductScreen({ navigation }) {
         />
       </View>
       <TextInput
+        editable
         style={styles.quantityInput}
-        onChangeText={() => { }}
-        value={'10'}
-        keyboardType="numeric"
+        defaultValue={String(getItem(id).quantity)}
+        onChangeText={(text) => updateItem(id, "quantity", text)}
+        /* value={String(getItem(id).quantity)} */
       />
 
       <View style={styles.btnContainer}>
         <Pressable
-          onPress={() => console.log("add")}
+          onPress={addItem}
           style={[styles.btn, styles.btnColor]}>
           <Text style={styles.text}>+</Text>
         </Pressable>
         <Pressable
-          onPress={() => console.log("delete")}
+          onPress={() => deleteItem(id)}
           style={styles.btn}>
           <Text style={styles.text}>x</Text>
         </Pressable>
@@ -109,6 +125,9 @@ export default function AddProductScreen({ navigation }) {
         {/* {inputList.map(item => {
           return <Item id={item.id} key={item.id} />
         })}*/}
+        {
+          /* inputList.map(item => console.log(item)) */
+        }
       </View>
       <View style={styles.bottomBtnContainer}>
         <Button onPress={() => navigation.goBack()} title="CANCEL" width={"48%"} productType="light" />
