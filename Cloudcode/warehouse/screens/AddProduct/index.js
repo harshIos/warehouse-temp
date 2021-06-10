@@ -84,12 +84,12 @@ export default function AddProductScreen({ navigation }) {
 
       <View style={styles.btnContainer}>
         <Pressable
-          onPress={() => navigation.navigate('AddProduct')}
+          onPress={() => console.log("add")}
           style={[styles.btn, styles.btnColor]}>
           <Text style={styles.text}>+</Text>
         </Pressable>
         <Pressable
-          onPress={() => navigation.navigate('AddProduct')}
+          onPress={() => console.log("delete")}
           style={styles.btn}>
           <Text style={styles.text}>x</Text>
         </Pressable>
@@ -97,18 +97,26 @@ export default function AddProductScreen({ navigation }) {
     </View>
   );
 
+  const header = () => {
+    return (<View style={styles.itemHeader}>
+      <Text style={styles.headerText}>Product Type</Text>
+      <Text style={styles.headerText}>PickList</Text>
+      <Text style={[styles.headerText, styles.headerTextWidth]}>Quantity</Text>
+    </View>)
+  }
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#2099e7" />
-      <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-        {/* <FlatList
+      <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start', padding: 20, width: '100%' }}>
+        <FlatList
           data={inputList}
           renderItem={({ item }) => <Item id={item.id} />}
           keyExtractor={item => item.id}
-        /> */}
-        {inputList.map(item => {
+          ListHeaderComponent={header}
+        />
+        {/* {inputList.map(item => {
           return <Item id={item.id} key={item.id} />
-        })}
+        })}*/}
       </View>
     </SafeAreaView>
   );
@@ -118,7 +126,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+
   },
   item: {
     padding: 20,
@@ -165,5 +174,25 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     marginLeft: '4%'
+  },
+  itemHeader :{
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#e8effa',
+    /* borderRadius: 10, */
+    padding: 20,
+    backgroundColor: '#e8effa',
+    width: wp('100%')
+  },
+  headerText: {
+    fontSize: hp('2%'),
+    fontWeight: 'bold',
+    marginLeft: '1%',
+    marginRight: '10%'
+  },
+  headerTextWidth: {
+    marginLeft: '8%'
   }
 })

@@ -6,8 +6,10 @@
  * @flow strict-local
  */
 import React from 'react';
-import { Pressable, SafeAreaView, View, Image, StatusBar, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, Image, StatusBar, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
+import Button from '../../components/button'
 
 const Home = ({ navigation }) => {
     return (
@@ -69,15 +71,7 @@ const Home = ({ navigation }) => {
                     </Text>
                     <Text style={styles.value}>Reference Number</Text>
                 </View>
-                <Pressable
-                    onPress={() => navigation.navigate('AddProduct')}
-                    style={
-                        styles.btn
-                    }>
-                    <Text style={styles.text}>
-                        NEXT
-                    </Text>
-                </Pressable>
+                <Button onPress={() => navigation.navigate('AddProduct')} title="NEXT"/>
             </View>
         </SafeAreaView>
     );

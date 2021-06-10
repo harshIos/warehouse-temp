@@ -10,12 +10,11 @@ import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
-  Pressable,
-  Text,
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
+import Button from '../../components/button'
 
 const Scanner = ({ navigation }) => {
 
@@ -26,15 +25,7 @@ const Scanner = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container} >
       <RNCamera captureAudio={false} style={styles.scanner} onBarCodeRead={onBarCodeRead} />
-      <Pressable
-        onPress={() => navigation.goBack()}
-        style={
-          styles.btn
-        }>
-          <Text style={styles.text}>
-          Go Back
-          </Text>
-      </Pressable>
+      <Button onPress={() => navigation.goBack()} title="Go Back"/>
     </SafeAreaView>
   );
 };
