@@ -3,16 +3,17 @@ import { useState } from 'react'
 import { View, Text, SafeAreaView, StatusBar, StyleSheet, FlatList, TextInput, Pressable, } from 'react-native';;
 import ModalDropdown from 'react-native-modal-dropdown';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import uuid from 'react-native-uuid';
 
 import Header from "../../components/header"
 import Button from "../../components/button"
 
 export default function AddProductScreen({ navigation }) {
   const field = { productType: "", pickList: "", quantity: 0 }
-  const [inputList, setInputList] = useState([{ id: 'item-1', ...field }]);
+  const [inputList, setInputList] = useState([{ id: uuid.v4(), ...field }]);
 
   const addItem = () => {
-    setInputList(existingItems => [...existingItems, { id: `item-${existingItems.length + 1}`, ...field }])
+    setInputList(existingItems => [...existingItems, { id: uuid.v4(), ...field }])
   }
 
   const deleteItem = (idToRemove) => {
