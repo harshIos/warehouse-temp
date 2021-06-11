@@ -31,6 +31,7 @@ export default function AddProductScreen({ navigation }) {
 
   const renderDropdown = (index, options, field) =>
     <ModalDropdown
+      defaultValue={inputList[index][field] || "Select"}
       options={options}
       onSelect={(idx, value) => {
         updateItem(index, field, value)
