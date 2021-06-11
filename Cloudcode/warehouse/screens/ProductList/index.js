@@ -5,16 +5,16 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 import Header from "../../components/header"
 import Button from "../../components/button"
-import data from "../../data.json"
+//import data from "../../data.json"
 
-export default function ProductListScreen({ navigation }) {
-  const Item = ({ type, item, quantity }) => (
+export default function ProductListScreen({ navigation, route }) {
+  const Item = ({ productType, pickList, quantity }) => (
     <View style={styles.item}>
       <View style={styles.itemWrapper}>
-        <Text style={styles.title}>{type}</Text>
+        <Text style={styles.title}>{productType}</Text>
       </View>
       <View style={styles.itemWrapper}>
-        <Text style={styles.title}>{item}</Text>
+        <Text style={styles.title}>{pickList}</Text>
       </View>
       <View style={styles.itemWrapper}>
         <Text style={styles.title}>{quantity}</Text>
@@ -22,12 +22,14 @@ export default function ProductListScreen({ navigation }) {
     </View>
   );
 
+  const { inputList } = route.params;
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#2099e7" />
       <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start', padding: 20, width: '100%' }}>
         <FlatList
-          data={data}
+          data={inputList}
           ItemSeparatorComponent={() => <View style={styles.listItemSeparator}/>}
           ListFooterComponent={() => <View style={styles.listItemSeparator}/>}
           renderItem={({ item }) => <Item {...item} />}

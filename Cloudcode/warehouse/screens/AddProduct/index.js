@@ -29,14 +29,12 @@ export default function AddProductScreen({ navigation }) {
     return inputList.find(item => item.id === id)
   }
 
-  console.log(inputList)
-
   const renderDropdown = (index, options, field) =>
     <ModalDropdown
       options={options}
       onSelect={(idx, value) => {
         updateItem(index, field, value)
-        console.debug(`index=${index}, idx=${idx}, value='${value}'`);
+        //console.debug(`index=${index}, idx=${idx}, value='${value}'`);
       }}
       textStyle={{
         fontSize: hp('2%'),
@@ -108,7 +106,7 @@ export default function AddProductScreen({ navigation }) {
       </View>
       <View style={styles.bottomBtnContainer}>
         <Button onPress={() => navigation.goBack()} title="CANCEL" width={"48%"} productType="light" />
-        <Button onPress={() => navigation.navigate('ProductList')} title="SAVE" width={"48%"} />
+        <Button onPress={() => navigation.navigate('ProductList', {inputList})} title="SAVE" width={"48%"} />
       </View>
     </SafeAreaView>
   );
