@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react'
-import { View, Text, SafeAreaView, StatusBar, StyleSheet, FlatList, TextInput, Pressable, } from 'react-native';;
+import { View, Text, SafeAreaView, StatusBar, StyleSheet, FlatList, TextInput, Pressable, Image } from 'react-native';;
 import ModalDropdown from 'react-native-modal-dropdown';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import uuid from 'react-native-uuid';
@@ -42,7 +42,8 @@ export default function AddProductScreen({ navigation }) {
       }}
       textStyle={{
         fontSize: hp('2%'),
-        padding: 10
+        padding: 10,
+        width: '60%'
       }}
       dropdownStyle={{
         width: '25%',
@@ -57,10 +58,11 @@ export default function AddProductScreen({ navigation }) {
         borderBottomWidth: 1,
       }}
       style={{
-        width: '48%',
+        width: '45%',
         borderWidth: 0,
-        borderBottomWidth: 1
+        borderBottomWidth: 1,
       }}
+      renderRightComponent={() => <View><Image source={require('../../assets/arrow-down.png')} style={styles.arrow_icon} /></View>}
     />
 
   const Item = ({ id, index }) => (
@@ -99,6 +101,8 @@ export default function AddProductScreen({ navigation }) {
       <StatusBar barStyle="light-content" backgroundColor="#2099e7" />
       <View style={styles.listContainer}>
         <FlatList
+          automaticallyAdjustContentInsets={false}
+          showsVerticalScrollIndicator={false}
           data={inputList}
           renderItem={({ item, index }) => (<Item {...item} index={index} />)}
           keyExtractor={item => item.id}
@@ -190,5 +194,10 @@ const styles = StyleSheet.create({
   dropdownItem: {
     padding: 2,
     fontSize: hp('2%'),
+  },
+  arrow_icon: {
+    marginLeft: '50%',
+    height: hp('2%'),
+    width: wp('2%')
   }
 })
