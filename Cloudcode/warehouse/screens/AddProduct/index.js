@@ -7,10 +7,13 @@ import uuid from 'react-native-uuid';
 
 import Header from "../../components/header"
 import Button from "../../components/button"
+import data from "../../data.json"
 
 export default function AddProductScreen({ navigation }) {
   const field = { productType: "", pickList: "", quantity: 0 }
   const [inputList, setInputList] = useState([{ id: uuid.v4(), ...field }]);
+
+  const [pickList, setPickList] = useState([...data['Apple'], ...data['Samsung']]);
 
   const addItem = () => {
     setInputList(existingItems => [...existingItems, { id: uuid.v4(), ...field }])
@@ -38,7 +41,7 @@ export default function AddProductScreen({ navigation }) {
       options={options}
       onSelect={(idx, value) => {
         updateItem(index, field, value)
-        //console.debug(`index=${index}, idx=${idx}, value='${value}'`);
+        console.debug(`index=${index}, idx=${idx}, value='${value}'`);
       }}
       textStyle={{
         fontSize: hp('2%'),
@@ -65,13 +68,15 @@ export default function AddProductScreen({ navigation }) {
       renderRightComponent={() => <View><Image source={require('../../assets/arrow-down.png')} style={styles.arrow_icon} /></View>}
     />
 
+  const productTypeList = Object.keys(data);
+
   const Item = ({ id, index }) => (
     <View style={styles.item}>
       {/* <Text style={styles.title}>{id}</Text> */}
       <View style={styles.dropdownContainer}>
-        {renderDropdown(index, ['Apple', 'Samsung'], "productType")}
+        {renderDropdown(index, productTypeList, "productType")}
 
-        {renderDropdown(index, ['IPhone 5', 'IPhone 6'], "pickList")}
+        {renderDropdown(index, pickList, "pickList")}
       </View>
       <TextInput
         style={styles.quantityInput}
@@ -189,7 +194,7 @@ const styles = StyleSheet.create({
     margin: '2%'
   },
   headerTextWidth: {
-    marginLeft: '-20%'
+    marginLeft: '-14%'
   },
   dropdownItem: {
     padding: 2,

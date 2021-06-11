@@ -5,7 +5,6 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 import Header from "../../components/header"
 import Button from "../../components/button"
-//import data from "../../data.json"
 
 export default function ProductListScreen({ navigation, route }) {
   const { inputList } = route.params;
@@ -65,7 +64,7 @@ const styles = StyleSheet.create({
     marginLeft: '1%',
     marginRight: '20%',
     color: '#aaaaaa',
-    textTransform: 'capitalize'
+    /* textTransform: 'capitalize' */
   },
   btnContainer: {
     width: '100%',
