@@ -16,8 +16,10 @@ export default function AddProductScreen({ navigation }) {
   }
 
   const deleteItem = (idToRemove) => {
-    const data = inputList.filter((item) => item.id !== idToRemove)
-    setInputList(data)
+    if(inputList.length > 1) {
+      const data = inputList.filter((item) => item.id !== idToRemove)
+      setInputList(data)
+    }
   }
 
   const updateItem = (index, key, value) => {
@@ -83,6 +85,7 @@ export default function AddProductScreen({ navigation }) {
         </Pressable>
         <Pressable
           onPress={() => deleteItem(id)}
+          disabled={inputList.length === 1}
           style={styles.btn}>
           <Text style={styles.text}>x</Text>
         </Pressable>
