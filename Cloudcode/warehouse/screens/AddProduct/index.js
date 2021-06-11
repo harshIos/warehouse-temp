@@ -10,17 +10,16 @@ import Button from "../../components/button"
 import data from "../../data.json"
 
 export default function AddProductScreen({ navigation }) {
-  const field = { productType: "", pickList: "", quantity: 0 }
+  const [refresh, setRefresh] = useState(false)
+  const field = { productType: "", pickList: "", quantity: 0, list: [...data['Apple'], ...data['Samsung']] }
   const [inputList, setInputList] = useState([{ id: uuid.v4(), ...field }]);
-
-  const [pickList, setPickList] = useState([...data['Apple'], ...data['Samsung']]);
 
   const addItem = () => {
     setInputList(existingItems => [...existingItems, { id: uuid.v4(), ...field }])
   }
 
   const deleteItem = (idToRemove) => {
-    if(inputList.length > 1) {
+    if (inputList.length > 1) {
       const data = inputList.filter((item) => item.id !== idToRemove)
       setInputList(data)
     }
@@ -31,17 +30,24 @@ export default function AddProductScreen({ navigation }) {
     setInputList(inputList)
   }
 
-  const getItem = (id) => {
-    return inputList.find(item => item.id === id)
+  const updateItemArray = (index, key, value) => {
+    inputList[index][key] = value
+    setInputList(inputList);
+    setRefresh(!refresh)
   }
-
-  const renderDropdown = (index, options, field) =>
-    <ModalDropdown
-      defaultValue={inputList[index][field] || "Select"}
-      options={options}
+  const renderDropdown = (index, options, field) => {
+    const defaultValue = inputList[index]
+    return <ModalDropdown
+      defaultValue={defaultValue[field] || "Select"}
+      options={[...options]}
       onSelect={(idx, value) => {
         updateItem(index, field, value)
-        console.debug(`index=${index}, idx=${idx}, value='${value}'`);
+        if (field === "productType") {
+          inputList[index]['list'] = [...data[value]]
+          setInputList(inputList);
+          setRefresh(!refresh)
+        }
+        console.debug(`index=${index}, field=${field}, idx=${idx}, value='${value}'`);
       }}
       textStyle={{
         fontSize: hp('2%'),
@@ -67,6 +73,7 @@ export default function AddProductScreen({ navigation }) {
       }}
       renderRightComponent={() => <View><Image source={require('../../assets/arrow-down.png')} style={styles.arrow_icon} /></View>}
     />
+  }
 
   const productTypeList = Object.keys(data);
 
@@ -76,13 +83,12 @@ export default function AddProductScreen({ navigation }) {
       <View style={styles.dropdownContainer}>
         {renderDropdown(index, productTypeList, "productType")}
 
-        {renderDropdown(index, pickList, "pickList")}
+        {renderDropdown(index, inputList[index].list, "pickList")}
       </View>
       <TextInput
         style={styles.quantityInput}
-        defaultValue={String(getItem(id).quantity)}
+        defaultValue={"0"}
         onChangeText={(text) => updateItem(index, "quantity", text)}
-      /* value={String(getItem(id).quantity)} */
       />
 
       <View style={styles.btnContainer}>
@@ -106,6 +112,7 @@ export default function AddProductScreen({ navigation }) {
       <StatusBar barStyle="light-content" backgroundColor="#2099e7" />
       <View style={styles.listContainer}>
         <FlatList
+          extraData={refresh}
           automaticallyAdjustContentInsets={false}
           showsVerticalScrollIndicator={false}
           data={inputList}
@@ -120,7 +127,7 @@ export default function AddProductScreen({ navigation }) {
       </View>
       <View style={styles.bottomBtnContainer}>
         <Button onPress={() => navigation.goBack()} title="CANCEL" width={"48%"} productType="light" />
-        <Button onPress={() => navigation.navigate('ProductList', {inputList})} title="SAVE" width={"48%"} />
+        <Button onPress={() => navigation.navigate('ProductList', { inputList })} title="SAVE" width={"48%"} />
       </View>
     </SafeAreaView>
   );
