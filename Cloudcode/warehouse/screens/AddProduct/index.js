@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useRef, createRef } from 'react'
+import { useState } from 'react'
 import { View, Text, SafeAreaView, StatusBar, StyleSheet, FlatList, TextInput, Pressable, } from 'react-native';;
 import ModalDropdown from 'react-native-modal-dropdown';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -8,26 +8,11 @@ import Header from "../../components/header"
 import Button from "../../components/button"
 
 export default function AddProductScreen({ navigation }) {
-  const dropdown = useRef(null);
-  const [productType, setProductType] = useState([
-    { label: 'Apple', value: 'apple' },
-    { label: 'Samsung', value: 'samsung' }
-  ]);
-
-  const [pickList, setPickList] = useState([
-    { label: 'iPhone 5', value: 'i5' },
-    { label: 'iPhone 5s', value: 'i5s' },
-    { label: 'iPhone 6', value: 'i6' },
-    { label: 'iPhone 6s', value: 'i6s' },
-    { label: 'iPhone 7', value: 'i7' },
-    { label: 'iPhone 8', value: 'i8' },
-    { label: 'iPhone x', value: 'x' },
-  ]);
-  const field = {productType: "", pickList: "", quantity: 0}
+  const field = { productType: "", pickList: "", quantity: 0 }
   const [inputList, setInputList] = useState([{ id: 'item-1', ...field }]);
 
   const addItem = () => {
-    setInputList(existingItems => [...existingItems, { id: `item-${existingItems.length+1}`, ...field}])
+    setInputList(existingItems => [...existingItems, { id: `item-${existingItems.length + 1}`, ...field }])
   }
 
   const deleteItem = (idToRemove) => {
@@ -35,66 +20,60 @@ export default function AddProductScreen({ navigation }) {
     setInputList(data)
   }
 
-  const updateItem = (idToUpdate, key, value) => {
-    const data = inputList.map(rowItem => ((rowItem.id === idToUpdate) ? {...rowItem, [key]: value} : rowItem))
-    console.log( idToUpdate, key, value)
-    setInputList(data)
+  const updateItem = (index, key, value) => {
+    inputList[index][key] = value
+    setInputList(inputList)
   }
 
   const getItem = (id) => {
     return inputList.find(item => item.id === id)
   }
-  const Item = ({ id }) => (
+
+  console.log(inputList)
+
+  const renderDropdown = (index, options, field) =>
+    <ModalDropdown
+      options={options}
+      onSelect={(idx, value) => {
+        updateItem(index, field, value)
+        console.debug(`index=${index}, idx=${idx}, value='${value}'`);
+      }}
+      textStyle={{
+        fontSize: hp('2%'),
+        padding: 10
+      }}
+      dropdownStyle={{
+        width: '25%',
+        borderColor: '#aaaaaa',
+        borderWidth: 1,
+        borderRadius: 5,
+      }}
+      dropdownTextStyle={{
+        fontSize: hp('2%'),
+        width: '100%',
+        borderWidth: 0,
+        borderBottomWidth: 1,
+      }}
+      style={{
+        width: '48%',
+        borderWidth: 0,
+        borderBottomWidth: 1
+      }}
+    />
+
+  const Item = ({ id, index }) => (
     <View style={styles.item}>
-       {/* <Text style={styles.title}>{id}</Text> */} 
+      {/* <Text style={styles.title}>{id}</Text> */}
       <View style={styles.dropdownContainer}>
-        <ModalDropdown
-          ref={dropdown}
-          options={productType}
-          renderButtonText={(rowData) => `${rowData.label}`}
-          renderRow={(rowData, rowID, highlighted) => {
-            return (<Pressable
-              style={{ padding: 10 }}
-              onPress={() => {
-                updateItem(id, "productType", rowData.label)
-                dropdown.current.select(rowID)
-                dropdown.current.hide(); 
-              }}
-            >
-              <Text style={styles.dropdownItem}>
-                {rowData.label}
-              </Text>
-            </Pressable>)
-          }}
-          textStyle={{
-            fontSize: hp('2%'),
-            padding: 10
-          }}
-          dropdownStyle={{
-            width: '25%',
-            borderColor: '#aaaaaa',
-            borderWidth: 1,
-            borderRadius: 5,
-          }}
-          dropdownTextStyle={{
-            fontSize: hp('2%'),
-            width: '100%',
-            borderWidth: 0,
-            borderBottomWidth: 1,
-          }}
-          style={{
-            width: '60%',
-            borderWidth: 0,
-            borderBottomWidth: 1
-          }}
-        />
+        {renderDropdown(index, ['Apple', 'Samsung'], "productType")}
+
+        {renderDropdown(index, ['IPhone 5', 'IPhone 6'], "pickList")}
       </View>
       <TextInput
-        editable
         style={styles.quantityInput}
         defaultValue={String(getItem(id).quantity)}
-        onChangeText={(text) => updateItem(id, "quantity", text)}
-        /* value={String(getItem(id).quantity)} */
+        onChangeText={(text) => updateItem(index, "quantity", text)}
+      /* value={String(getItem(id).quantity)} */
       />
 
       <View style={styles.btnContainer}>
@@ -115,19 +94,17 @@ export default function AddProductScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#2099e7" />
-      <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start', padding: 20, width: '100%' }}>
+      <View style={styles.listContainer}>
         <FlatList
           data={inputList}
-          renderItem={({ item }) => <Item id={item.id} />}
+          renderItem={({ item, index }) => (<Item {...item} index={index} />)}
           keyExtractor={item => item.id}
           ListHeaderComponent={<Header title1="Product Type" title2="PickList" title3="Quantity" addedClasses={styles.headerTextWidth} />}
         />
         {/* {inputList.map(item => {
           return <Item id={item.id} key={item.id} />
         })}*/}
-        {
-          /* inputList.map(item => console.log(item)) */
-        }
+
       </View>
       <View style={styles.bottomBtnContainer}>
         <Button onPress={() => navigation.goBack()} title="CANCEL" width={"48%"} productType="light" />
@@ -143,34 +120,42 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#fff',
   },
+  listContainer: {
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    padding: 20,
+    width: '100%'
+  },
   item: {
     padding: 20,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-start',
-    width: '100%'
+    width: '90%'
   },
   title: {
     fontSize: hp('2%'),
   },
   dropdownContainer: {
-    width: '40%',
+    width: '60%',
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
+    justifyContent: 'space-between'
   },
   quantityInput: {
-    width: '20%',
+    width: '16%',
     padding: 8,
     borderWidth: 1,
-    marginLeft: 150,
+    marginLeft: 50,
     fontSize: hp('2%'),
   },
   btn: {
     backgroundColor: '#f44133',
     padding: 2,
     borderRadius: 4,
-    width: '16%',
+    width: '18%',
     marginLeft: 10,
     display: 'flex',
     alignItems: 'center',
