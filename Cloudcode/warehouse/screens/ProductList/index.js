@@ -8,6 +8,7 @@ import Button from "../../components/button"
 //import data from "../../data.json"
 
 export default function ProductListScreen({ navigation, route }) {
+  const { inputList } = route.params;
   const Item = ({ productType, pickList, quantity }) => (
     <View style={styles.item}>
       <View style={styles.itemWrapper}>
@@ -22,14 +23,15 @@ export default function ProductListScreen({ navigation, route }) {
     </View>
   );
 
-  const { inputList } = route.params;
+  const data = inputList.length === 1 && inputList[0].productType !== "" ? inputList : []
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#2099e7" />
       <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start', padding: 20, width: '100%' }}>
-        <FlatList
-          data={inputList}
+         <FlatList
+          data={data}
+          ListEmptyComponent={() => <View style={[styles.item, {justifyContent: 'center'}]}><Text style={[styles.title, {marginRight: '10%',}]}>No Products added</Text></View>}
           ItemSeparatorComponent={() => <View style={styles.listItemSeparator}/>}
           ListFooterComponent={() => <View style={styles.listItemSeparator}/>}
           renderItem={({ item }) => <Item {...item} />}

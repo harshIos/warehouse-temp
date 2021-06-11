@@ -156,13 +156,11 @@ const styles = StyleSheet.create({
   },
   btn: {
     backgroundColor: '#f44133',
-    padding: 2,
+    padding: 1,
+    paddingBottom: 5,
     borderRadius: 4,
     width: '18%',
     marginLeft: 10,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start'
   },
   btnColor: {
     backgroundColor: '#29c8b7',
@@ -170,7 +168,9 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     fontSize: hp('3%'),
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    textAlign: 'center',
+    textAlignVertical: 'center'
   },
   btnContainer: {
     display: 'flex',
