@@ -23,7 +23,7 @@ export default function ProductListScreen({ navigation, route }) {
     </View>
   );
 
-  const data = inputList.length === 1 && inputList[0].productType !== "" ? inputList : []
+  const data = inputList.length >= 1 && inputList[0].productType !== "" ? inputList : []
 
   return (
     <SafeAreaView style={styles.container}>
